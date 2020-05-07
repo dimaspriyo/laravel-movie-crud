@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Movie;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -14,6 +15,8 @@ class MovieController extends Controller
     public function index()
     {
         //
+        $movie = Movie::all();
+        return view('index',['movies' => $movie]);
     }
 
     /**
@@ -24,6 +27,7 @@ class MovieController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
@@ -35,6 +39,22 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'genre' => 'required',
+            'year' => 'required|numeric',
+            'remake' => 'required',
+            ]);
+
+        $movie = new Movie();
+        $movie->name = $request->name;
+        $movie->genre = $request->genre;
+        $movie->year = $request->year;
+        $movie->remake = $request->remake;
+        $movie->save();
+
+        return redirect()->route('movies.index')->with('success','Success insert movie');
+
     }
 
     /**
@@ -57,6 +77,8 @@ class MovieController extends Controller
     public function edit($id)
     {
         //
+        $movie = \App\Movie::find($id);
+        return view('edit',['movie' => $movie]);
     }
 
     /**
@@ -69,6 +91,22 @@ class MovieController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'genre' => 'required',
+            'year' => 'required|numeric',
+            'remake' => 'required',
+            ]);
+
+        $movie = \App\Movie::find($id);
+        $movie->id = $id;
+        $movie->name = $request->name;
+        $movie->genre = $request->genre;
+        $movie->year = $request->year;
+        $movie->remake = $request->remake;
+        $movie->save();
+        
+        return redirect()->route('movies.index')->with('success','Success Update Movie');
     }
 
     /**
@@ -80,5 +118,9 @@ class MovieController extends Controller
     public function destroy($id)
     {
         //
+        $movie = \App\Movie::find($id);
+        $movie->delete();
+
+        return redirect()->route('movies.index')->with('success','Success Delete Movie');
     }
 }
