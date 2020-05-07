@@ -44,22 +44,12 @@ body .container {
 			<h2>Laravel Movie CRUD</h2>
 		</div>
 
-
+		<h2 class="text-center"> Update Form </h2>
 		<div class="row justify-content-center">
-
-		<form class="form-horizontal w-50" action="{{ route('movies.store') }}" method="post">
+			
+		<form class="form-horizontal w-50" action="{{ url('movies/'.$movie->id) }}" method="POST">
 			@csrf
-			@if (session('success'))
-				<div class="alert alert-success alert-dismissible">
-					<button type="button" class="close" data-dismiss="alert"
-						aria-hidden="true">&times;</button>
-					<h5>
-						<i class="icon fas fa-check"></i> Alert!
-					</h5>
-					{{ session('success') }}
-				</div>
-			@endif
-
+			{{ method_field('PATCH') }}
 				@if (session('failed'))
 				<div class="alert alert-danger alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert"
@@ -91,7 +81,7 @@ body .container {
 					<div class="form-group row">
 						<label class="col-sm-3 form-label"> Movie Name </label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" name="name">
+						<input type="text" class="form-control" name="name" value="{{ $movie->name }}">
 							
 						</div>
 					</div>
@@ -100,10 +90,31 @@ body .container {
 						<label class="col-sm-3 form-label"> Genre </label>
 						<div class="col-sm-7">
 							<select name="genre">
+
+								@if ($movie->genre == 'horror')
+								<option value="horror" checked="checked">Horror</option>
+								@else
 								<option value="horror">Horror</option>
+								@endif
+								
+
+								@if ($movie->genre == 'comedy')
+								<option value="comedy" checked="checked">Comedy</option>
+								@else
 								<option value="comedy">Comedy</option>
+								@endif
+								
+								@if ($movie->genre == 'romance')
+								<option value="romance" checked='checked'>Romance</option>
+								@else
 								<option value="romance">Romance</option>
+								@endif
+
+								@if ($movie->genre == 'action')
+								<option value="action" checked='checked'>Action</option>		
+								@else
 								<option value="action">Action</option>
+								@endif
 							</select>
 						</div>
 					</div>
@@ -111,18 +122,33 @@ body .container {
 					<div class="form-group row">
 						<label class="col-sm-3 form-label"> Release Year </label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control"name="year" required="required">
+							<input type="text" class="form-control"name="year" required="required" value="{{ $movie->year }}">
 						</div>
 					</div>
 
 					<div class="form-group row">
 						<label class="col-sm-3 form-label"> Remake </label>
 						<div class="col-sm-7">
+
+							@if ($movie->remake == 'yes')
+							<label class="radio-inline"> <input type="radio"
+								name="remake" value="yes" checked="checked"> Yes
+							</label>
+							@else
 							<label class="radio-inline"> <input type="radio"
 								name="remake" value="yes"> Yes
-							</label> <label class="radio-inline"> <input type="radio"
+							</label>  
+							@endif
+							
+							@if ($movie->remake == "no")
+							<label class="radio-inline"> <input type="radio"
 								name="remake" value="no" checked="checked"> No
+							</label>								
+							@else
+							<label class="radio-inline"> <input type="radio"
+								name="remake" value="no"> No
 							</label>
+							@endif
 
 						</div>
 					</div>
@@ -136,59 +162,6 @@ body .container {
 					</div>
 			</form>
 
-		</div>
-
-
-		<div class="row mt-3 justify-content-center">
-
-			<div class="w-100">
-				<table id="example" class="table table-striped table-bordered">
-
-
-
-					<thead>
-
-						<tr>
-
-							<th>No</th>
-							<th>Name</th>
-							<th>Genre</th>
-							<th>Year</th>
-							<th>Remake</th>
-							<th>Action</th>
-
-						</tr>
-
-					</thead>
-
-					<tbody>
-					@foreach ($movies as $movie)
-					<tr> 
-						<td>{{$movie->id}}</td>
-						<td>{{$movie->name}}</td>
-						<td>{{$movie->genre}}</td>
-						<td>{{$movie->year}}</td>
-						<td>{{$movie->remake}}</td>
-						<td>
-						
-						<a href="{{ url('movies/'.$movie->id.'/edit') }}">
-						<button type="button" class="btn btn-primary">Edit</button>
-						</a>
-						
-					<form onsubmit="return confirm('Delete this {{ $movie->name }} movie ? ')" action="{{ url('movies/'.$movie->id) }}" method="POST">
-						@csrf
-						{{ method_field('DELETE') }}
-						<input type="submit" class="btn btn-danger" value="delete"></button>
-						</form>
-						</td>
-						</tr>
-					@endforeach
-					</tbody>
-
-
-
-				</table>
-			</div>
 		</div>
 
 	</div>
