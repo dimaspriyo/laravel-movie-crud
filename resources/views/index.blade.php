@@ -6,7 +6,7 @@
 <title>Laravel Movie CRUD</title>
 
 <link rel="stylesheet" type="text/css"
-	href="bootstrap/css/bootstrap.css">
+href="{{ asset('bootstrap/css/bootstrap.css') }}">
 
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
@@ -27,7 +27,7 @@ body .container {
 	crossorigin="anonymous"></script>
 <script type="text/javascript"
 	src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
-<script src="bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="{{ asset('bootstrap/js/bootstrap.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#example').DataTable();
@@ -61,8 +61,6 @@ body .container {
 			@endif
 
 				@if (session('failed'))
-					
-				
 				<div class="alert alert-danger alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert"
 						aria-hidden="true">&times;</button>
@@ -73,10 +71,11 @@ body .container {
 				</div>
 				@endif
 
-				<div class="alert alert-danger alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-				  <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+
 				  @if ($errors->any())
+				  <div class="alert alert-danger alert-dismissible">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				  <h5><i class="icon fas fa-ban"></i> Alert!</h5>
 				  	<table>
 						@foreach ($errors->all() as $error)
 							
@@ -85,8 +84,9 @@ body .container {
 							<td>{{ $error }} </td>
 						</tr>	
 					</table>	  
-				  @endif
 				</div>
+				  @endif
+				
 
 					<div class="form-group row">
 						<label class="col-sm-3 form-label"> Movie Name </label>
