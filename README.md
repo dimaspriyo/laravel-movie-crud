@@ -2,7 +2,7 @@
 ## Requirement
 - `php-sqlite3` (Ubuntu)
 
-There's mysql file too inside `/database` folder
+There's mysql file named `database.sql` folder
 
 ### Screenshoot
 
